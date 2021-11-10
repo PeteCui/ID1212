@@ -32,7 +32,8 @@ public class ClientHandler implements Runnable{
         while(connected){
             try {
                 String msg = fromClient.readLine();
-                if(msg.equals("-quit")){
+                //It means client quit! When he quits the buffer flushed!
+                if(msg == null){
                     System.out.println(clientSocket.getInetAddress() + " quit!");
                     controller.disconnect(this);
                     break;
@@ -40,7 +41,7 @@ public class ClientHandler implements Runnable{
                     controller.broadcast(msg);
                 }
             } catch (Exception e) {
-                System.out.println("Client lose connection");
+                System.out.println("One client lose connection");
                 controller.disconnect(this);
                 break;
             }

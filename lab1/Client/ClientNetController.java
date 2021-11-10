@@ -72,11 +72,6 @@ public class ClientNetController {
         new Thread(sender).start();
     }
 
-    public void sendNotification(String msg) {
-        Sender sender = new Sender(toServer, msg);
-        new Thread(sender).start();
-    }
-
     /**
      * Start a thread for listening incoming message
      */
@@ -117,9 +112,8 @@ public class ClientNetController {
                 while (connected && (msg = fromServer.readLine()) != null) {
                     System.out.println(msg);
                 }
+                System.out.println("Listener thread terminated");
             } catch (IOException e) {
-                disconnect();
-                connected= false;
                 System.out.println("Listener thread terminated");
             }
         }

@@ -32,7 +32,8 @@ public class CmdParser implements Runnable{
                     receivingCmds = false;
                     /* spawn a thread for sending notification */
                     if (controller.connected) {
-                        controller.sendNotification(msg);
+                        //controller.sendNotification(msg);
+                        controller.disconnect();
                     }
                 } else if (msg.equals("-name")) {
                     System.out.println("Enter name: ");
