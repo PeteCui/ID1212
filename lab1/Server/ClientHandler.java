@@ -1,4 +1,4 @@
-package Server;
+package lab1.Server;
 
 import java.io.*;
 import java.net.Socket;
@@ -38,7 +38,7 @@ public class ClientHandler implements Runnable{
                     controller.disconnect(this);
                     break;
                 }else{
-                    controller.broadcast(msg);
+                    controller.broadcast(msg, clientSocket.getPort());
                 }
             } catch (Exception e) {
                 System.out.println("One client lose connection");

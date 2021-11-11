@@ -1,4 +1,4 @@
-package Server;
+package lab1.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -66,10 +66,16 @@ public class ServerController {
         }
     }
 
-    public void broadcast(String msg){
+    public void broadcast(String msg, int port){
         synchronized (clients){
             //clients.forEach((client)-> System.out.println(client.getToClient()));
-            clients.forEach((client)-> client.getToClient().println(msg));
+            clients.forEach((client)-> {
+                if(client.clientSocket.getPort() != port){
+                    client.getToClient().println(msg);
+                }
+            });
         }
     }
+
+
 }

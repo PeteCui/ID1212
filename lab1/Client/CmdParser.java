@@ -1,6 +1,5 @@
-package Client;
+package lab1.Client;
 
-import Client.ClientNetController;
 
 import java.io.BufferedReader;
 import java.io.IOException;

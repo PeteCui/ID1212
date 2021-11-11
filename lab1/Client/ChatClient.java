@@ -1,4 +1,4 @@
-package Client;
+package lab1.Client;
 
 public class ChatClient {
     /* Connection Controller */

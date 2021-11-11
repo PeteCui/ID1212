@@ -1,4 +1,4 @@
-package Client;
+package lab1.Client;
 
 import java.io.*;
 import java.net.InetSocketAddress;
