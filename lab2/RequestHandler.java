@@ -94,44 +94,39 @@ public class RequestHandler implements Runnable {
         if (requestHeader.path.endsWith("?")){
             requestHeader.path = requestHeader.path.substring(0,requestHeader.path.length()-1);
         }
-        try {
-            //response
-            byte[] fileContent =  readFile(requestHeader.path.substring(1));
-            if (requestHeader.httpVersion.startsWith("HTTP/")){
-                //"HTTP/1.1 200 OK"
-                toClient.println(HTTP_OK_RESPONSE);
-                //"Server: game 1.0"
-                toClient.println(SERVER_ID_HEADER);
-                toClient.println("Content-length: " + fileContent.length);
-                toClient.println("Content-type: " + "text/html");
-                //set a cookie to browser if the client did not store the cookie
-                if(!"/favicon.ico".equals(requestHeader.path)){
-                    if(requestHeader.cookie.equals("")) {
-                        //create unique game
-                        int gameId = HttpServer.getCookie();
-                        Game newGame = new Game(gameId);
-                        games.add(newGame);
-                        System.out.println("New Client: " + newGame.getCookie());
-                        System.out.println("Answer: " + newGame.getAns());
-                        //return the cookie to client
-                        toClient.println("Set-Cookie: clientId=" + gameId);
-                    }else{
-                        myGame = findCurrentGame(requestHeader.cookie);
-                        System.out.println("Old Client: " + myGame.getCookie());
-                        System.out.println("Answer: " + myGame.getAns());
-                    }
+        //response
+        //byte[] fileContent =  readFile(requestHeader.path.substring(1));
+        if (requestHeader.httpVersion.startsWith("HTTP/")){
+            //"HTTP/1.1 200 OK"
+            toClient.println(HTTP_OK_RESPONSE);
+            //"Server: game 1.0"
+            toClient.println(SERVER_ID_HEADER);
+            //toClient.println("Content-length: " + fileContent.length);
+            toClient.println("Content-length: " + HTML.INDEX.length());
+            toClient.println("Content-type: " + "text/html");
+            //set a cookie to browser if the client did not store the cookie
+            if(!"/favicon.ico".equals(requestHeader.path)){
+                if(requestHeader.cookie.equals("")) {
+                    //create unique game
+                    int gameId = HttpServer.getCookie();
+                    Game newGame = new Game(gameId);
+                    games.add(newGame);
+                    System.out.println("New Client: " + newGame.getCookie());
+                    System.out.println("Answer: " + newGame.getAns());
+                    //return the cookie to client
+                    toClient.println("Set-Cookie: clientId=" + gameId);
+                }else{
+                    myGame = findCurrentGame(requestHeader.cookie);
+                    System.out.println("Old Client: " + myGame.getCookie());
+                    System.out.println("Answer: " + myGame.getAns());
                 }
-                //"/n"
-                toClient.println();
-                toClient.flush();
             }
-            toClient.write(fileContent);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("File open failure!");
+            //"/n"
+            toClient.println();
+            toClient.flush();
         }
+        //toClient.write(fileContent);
+        toClient.println(HTML.INDEX);
 
     }
 

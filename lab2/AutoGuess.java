@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.DecimalFormat;
 import java.time.Duration;
 
 public class AutoGuess {
@@ -55,7 +56,7 @@ public class AutoGuess {
             HttpClient newClient = HttpClient.newHttpClient();
             postResponse = newClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
         }
-        count++;
+
         //parse
         String[] split1 = postResponse.body().split("</h1>");
         if(split1[0].endsWith("lower")){
@@ -67,7 +68,7 @@ public class AutoGuess {
             }else{
                 newGuess = Guess + 1;
             }
-            startGame(newGuess, count);
+            startGame(newGuess, count+1);
         }else if(split1[0].endsWith("higher")){
             this.max = Guess;
             int newGuess;
@@ -77,7 +78,7 @@ public class AutoGuess {
             }else{
                 newGuess = Guess - 1;
             }
-            startGame(newGuess, count);
+            startGame(newGuess, count+1);
         }else{
 //          //construct get request
             HttpRequest resetRequest = HttpRequest.newBuilder()
@@ -94,22 +95,26 @@ public class AutoGuess {
             this.max = 100;
             this.finish++;
             this.sum = this.sum + count;
-            System.out.println("Finish " + finish + " : " + count +" times");
+            System.out.println("Finish " + finish + " : " + count +" times" + " | Total times: " + this.sum);
             return;
         }
     }
 
     private void showResult() {
-        System.out.println("Average times: "+this.sum/this.finish);
+        float num= (float)this.sum/this.finish;
+        DecimalFormat df = new DecimalFormat("0.00");
+        String result = df.format(num);
+        System.out.println("Average times: "+ result );
     }
 
     public static void main(String[] args) {
         try {
 
             AutoGuess autoGuess = new AutoGuess();
+            //get cookie
             autoGuess.getCookie();
             for(int i = 0; i < 100; i++){
-                autoGuess.startGame(50, 0);
+                autoGuess.startGame(50, 1);
             }
             autoGuess.showResult();
 
