@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Quiz!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .lab3 {
+            background-color: DarkGray;
+            color:white;
+            margin:20px;
+            padding:20px;
+        }
+    </style>
+</head>
+<body>
+<div class="lab3">
+    <h1 style="text-align:center" th:text="${currentQuiz['subject']}"></h1>
+        <form th:action="@{/submitQuiz}" method="POST">
+            <div th:each="q, iter_1:${currentQuestions}">
+                <span th:text="${iter_1['count']}"></span>
+                <span th:text="${q['text']}"></span>
+                <br>
+                <div th:each="op, iter_2:${q['options']}">
+                    <input
+                            type="checkbox" th:name= "${q['id']} + ':' + ${iter_2['count']}" value="1">[[${op}]]<br>
+                </div>
+                <br>
+            </div>
+            <input type="submit" value="submit" />
+            <input type="hidden" name="action" value="submitQuiz"/>
+        </form>
+</div>
+</body>
+</html>

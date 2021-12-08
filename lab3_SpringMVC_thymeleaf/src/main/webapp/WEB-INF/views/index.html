@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Quiz!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .lab3 {
+            background-color: DarkGray;
+            color:white;
+            margin:20px;
+            padding:20px;
+        }
+    </style>
+</head>
+    <body>
+        <div class="lab3">
+            <h1 style="text-align:center">Super Quiz!</h1>
+            <p style="text-align:center">Enter username and password to log in</p>
+            <form th:action="@{/login}" th:object="${user}" method="POST" style="text-align:center">
+                <span>Username:</span>
+                <input type="text" name="username"/>
+                <br>
+                <span>Password: </span>
+                <input type="password" name="password"/>
+                <br>
+                <input type="submit" value="Login">
+
+            </form>
+        </div>
+    </body>
+</html>
